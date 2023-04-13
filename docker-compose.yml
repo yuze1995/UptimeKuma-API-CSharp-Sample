@@ -1,0 +1,23 @@
+version: '3.9'
+services:
+  kuma:
+    container_name: uptime-kuma
+    image: louislam/uptime-kuma:1.21.2
+    ports:
+      - "3001:3001"
+    restart: always
+    volumes:
+      - uptime-kuma:/app/data
+    depends_on:
+      - redis
+
+  redis:
+    container_name: redis
+    image: redis
+    volumes:
+      - ./db:/db
+    ports:
+      - "6379:6379"
+
+volumes:
+  uptime-kuma: 
