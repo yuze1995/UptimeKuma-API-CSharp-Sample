@@ -50,6 +50,13 @@ public static class SocketIoServiceCollectionExtension
                 }
             }
 
+            socketIo.On("add",
+                        resp =>
+                        {
+                            var x = resp.GetValue<object>();
+                            var c = x;
+                        });
+            
             socketIo.On(KumaReceivedEvent.Heartbeat,
                         resp =>
                             Invoke(resp,

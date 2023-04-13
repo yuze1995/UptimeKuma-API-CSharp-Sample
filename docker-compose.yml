@@ -14,8 +14,6 @@ services:
   redis:
     container_name: redis
     image: redis
-    volumes:
-      - ./db:/db
     ports:
       - "6379:6379"
 
