@@ -46,17 +46,10 @@ public static class SocketIoServiceCollectionExtension
                 }
                 finally
                 {
-                    logger.Information("Event [{Event}] executed Done", eventName);
+                    logger.Information("Event executed Done [{Event}]", eventName);
                 }
             }
 
-            socketIo.On("add",
-                        resp =>
-                        {
-                            var x = resp.GetValue<object>();
-                            var c = x;
-                        });
-            
             socketIo.On(KumaReceivedEvent.Heartbeat,
                         resp =>
                             Invoke(resp,

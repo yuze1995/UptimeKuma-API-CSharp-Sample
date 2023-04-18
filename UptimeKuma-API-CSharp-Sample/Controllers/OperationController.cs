@@ -4,6 +4,7 @@ using SocketIOClient;
 using StackExchange.Redis;
 using UptimeKuma_API_CSharp_Sample.Configurations;
 using UptimeKuma_API_CSharp_Sample.Consts;
+using ILogger = Serilog.ILogger;
 
 namespace UptimeKuma_API_CSharp_Sample.Controllers;
 
@@ -38,7 +39,7 @@ public class OperationController : ControllerBase
         await _socketIo.EmitAsync("login",
                                   response =>
                                   {
-                                      _logger.LogInformation("{Response}", response);
+                                      _logger.Information("{Response}", response);
                                   },
                                   dto);
 
@@ -54,10 +55,12 @@ public class OperationController : ControllerBase
 
         var tasks = monitors.Select(monitor => _socketIo.EmitAsync("add", () =>
         {
-            _logger.LogInformation("Add Monitor: {MonitorName}", monitor.Key);
+            _logger.Information("Add Monitor: {MonitorName}", monitor.Key);
+
             return GenerateAddMonitorDto(monitor.Key, monitor.Value);
         }));
-       await Task.WhenAll(tasks);
+
+        await Task.WhenAll(tasks);
 
         return Ok("Connected!");
     }
